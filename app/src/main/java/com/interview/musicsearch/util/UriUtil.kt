@@ -49,12 +49,4 @@ object UriUtil {
         }
     }
 
-    fun getAlbumTracksUri(id: String): Uri {
-        return Uri.Builder().scheme(SCHEME).path("artist/$id/albums").build()
-    }
-
-    fun getArtistAlbumsUri(id: String): Uri {
-        return Uri.Builder().scheme(SCHEME).path("album/$id/tracks").build()
-    }
-
 }

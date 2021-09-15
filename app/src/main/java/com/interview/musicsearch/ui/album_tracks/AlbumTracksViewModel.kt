@@ -61,7 +61,7 @@ class AlbumTracksViewModel @Inject constructor(
         sorted.forEach {
             if (it.disk_number != currentDiskNumber) {
                 currentDiskNumber = it.disk_number
-                items.add(DataItem.DiskItem("Volume${it.disk_number}"))
+                items.add(DataItem.DiskItem("Volume ${it.disk_number}"))
             }
             items.add(DataItem.TrackerItem(it))
         }

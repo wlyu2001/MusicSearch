@@ -6,27 +6,61 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.interview.musicsearch.data.model.Artist
+import com.interview.musicsearch.databinding.ArtistHeaderViewBinding
 import com.interview.musicsearch.databinding.ArtistListItemViewBinding
 import com.interview.musicsearch.ui.getContentIntent
 import com.interview.musicsearch.util.ARTIST_ALBUMS
 import com.squareup.picasso.Picasso
 
-class SearchArtistAdapter :
-    ListAdapter<Artist, SearchArtistAdapter.ArtistItemViewHolder>(DiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtistItemViewHolder {
-        return ArtistItemViewHolder(
-            ArtistListItemViewBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
+private const val VIEW_TYPE_HEADER = 1
+private const val VIEW_TYPE_ITEM = 2
+
+
+class SearchArtistAdapter :
+    ListAdapter<Artist, RecyclerView.ViewHolder>(DiffCallback()) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_HEADER -> ArtistHeaderViewHolder(
+                ArtistHeaderViewBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
             )
-        )
+            VIEW_TYPE_ITEM -> ArtistItemViewHolder(
+                ArtistListItemViewBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+            else -> throw IllegalArgumentException("Invalid view type")
+        }
     }
-    
-    override fun onBindViewHolder(holder: ArtistItemViewHolder, position: Int) {
-        holder.bind(getItem(position))
+
+    override fun getItemCount(): Int {
+        val count = super.getItemCount()
+        return if (count == 0) 0
+        else count + 1
     }
+
+    override fun getItemViewType(position: Int): Int {
+        if (position == 0) {
+            return VIEW_TYPE_HEADER
+        }
+        return VIEW_TYPE_ITEM
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is ArtistItemViewHolder) {
+            holder.bind(getItem(position - 1))
+        }
+    }
+
+    class ArtistHeaderViewHolder(binding: ArtistHeaderViewBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     class ArtistItemViewHolder(private val binding: ArtistListItemViewBinding) :
         RecyclerView.ViewHolder(binding.root) {

@@ -48,6 +48,7 @@ class AlbumTracksFragment : Fragment() {
         val adapter = AlbumTracksAdapter()
 
         binding.tracksRecyclerView.adapter = adapter
+        binding.tracksRecyclerView.itemAnimator = null
 
         viewModel.albumTracksLiveData.observe(viewLifecycleOwner) {
             adapter.addHeaderAndSubmitList(it.first, it.second) {

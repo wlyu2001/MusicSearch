@@ -37,6 +37,8 @@ class SearchArtistsFragment : Fragment() {
         val adapter = SearchArtistAdapter()
 
         binding.searchArtistRecyclerView.adapter = adapter
+        binding.searchArtistRecyclerView.itemAnimator = null
+
         viewModel.searchArtistsLiveData.observe(viewLifecycleOwner) {
             adapter.submitList(it) {
                 binding.searchArtistRecyclerView.scrollToPosition(0)

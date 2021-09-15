@@ -48,6 +48,7 @@ class ArtistAlbumsFragment : Fragment() {
         val adapter = ArtistAlbumsAdapter()
 
         binding.albumsRecyclerView.adapter = adapter
+        binding.albumsRecyclerView.itemAnimator = null
         binding.albumsRecyclerView.layoutManager = GridLayoutManager(context, 2)
 
         viewModel.artistAlbumsLiveData.observe(viewLifecycleOwner) {

@@ -62,7 +62,7 @@ class AlbumTracksAdapter :
     }
 
     override fun getItemViewType(position: Int): Int {
-        if(position == 0) {
+        if (position == 0) {
             return VIEW_TYPE_HEADER
         }
         return when (getItem(position - 1)) {

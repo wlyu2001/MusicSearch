@@ -8,6 +8,9 @@ import com.interview.musicsearch.data.model.Artist
 import com.interview.musicsearch.data.model.Track
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,12 +30,39 @@ class AlbumTracksViewModel @Inject constructor(
         _spinnerLiveData.value = true
     }
 
-    val albumTracksLiveData: LiveData<Pair<Album, List<Track>>> = _albumIdLiveData.switchMap { id ->
+    private fun prepareDataItems(album: Album, tracks: List<Track>): List<DataItem> {
+        val items = mutableListOf<DataItem>()
+        val sorted = tracks.sortedWith(compareBy({ it.disk_number }, { it.track_position }))
+
+        var currentDiskNumber = 0
+
+        sorted.forEach {
+            if (it.disk_number != currentDiskNumber) {
+                currentDiskNumber = it.disk_number
+                items.add(DataItem.DiskItem("Volume${it.disk_number}"))
+            }
+            items.add(DataItem.TrackerItem(it))
+        }
+
+        if(currentDiskNumber == 1) {
+            items.removeAt(0)
+        }
+
+        items.add(0, DataItem.AlbumItem(album))
+        return items
+    }
+
+    val albumTracksLiveData: LiveData<List<DataItem>> = _albumIdLiveData.switchMap { id ->
         liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
             try {
                 val album = repository.fetchAlbum(id)
                 val tracks = repository.fetchAlbumTracks(id)
-                emit(Pair(album, tracks))
+
+                withContext(Dispatchers.Default) {
+                    val items = prepareDataItems(album, tracks)
+                    emit(items.toList())
+                }
+
 
             } catch (error: DataError) {
                 _snackBarLiveData.value = error.message

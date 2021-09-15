@@ -51,7 +51,7 @@ class AlbumTracksFragment : Fragment() {
         binding.tracksRecyclerView.itemAnimator = null
 
         viewModel.albumTracksLiveData.observe(viewLifecycleOwner) {
-            adapter.addHeaderAndSubmitList(it.first, it.second) {
+            adapter.submitList(it) {
                 binding.tracksRecyclerView.scrollToPosition(0)
             }
         }

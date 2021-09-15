@@ -11,70 +11,30 @@ import com.interview.musicsearch.databinding.AlbumListHeaderViewBinding
 import com.interview.musicsearch.databinding.TrackListItemViewBinding
 import com.interview.musicsearch.databinding.VolumeListItemViewBinding
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
-private const val VIEW_TYPE_VOLUME = 1
+private const val VIEW_TYPE_ALBUM = 1
 private const val VIEW_TYPE_TRACK = 2
-private const val VIEW_TYPE_HEADER = 3
+private const val VIEW_TYPE_DISK = 3
 
 
 class AlbumTracksAdapter :
     ListAdapter<DataItem, RecyclerView.ViewHolder>(DiffCallback()) {
 
-    val adapterScope = CoroutineScope(Dispatchers.Default)
-    var album: Album? = null
-
-    override fun getItemCount(): Int {
-        return super.getItemCount() + 1
-    }
-
-
-    fun addHeaderAndSubmitList(album: Album, list: List<Track>, callback: Runnable? = null) {
-        this.album = album
-        adapterScope.launch {
-
-            val items = mutableListOf<DataItem>()
-
-            val sorted = list.sortedWith(compareBy({ it.disk_number }, { it.track_position }))
-
-            var currentDiskNumber = 0
-
-            sorted.forEach {
-                if (it.disk_number != currentDiskNumber) {
-                    currentDiskNumber = it.disk_number
-                    items.add(DataItem.Header("Volume${it.disk_number}"))
-                }
-                items.add(DataItem.TrackerItem(it))
-            }
-
-            if(currentDiskNumber == 1) {
-                items.removeAt(0)
-            }
-
-            withContext(Dispatchers.Main) {
-                submitList(items, callback)
-            }
-        }
-    }
 
     override fun getItemViewType(position: Int): Int {
-        if (position == 0) {
-            return VIEW_TYPE_HEADER
-        }
-        return when (getItem(position - 1)) {
+
+        return when (getItem(position)) {
+            is DataItem.AlbumItem -> VIEW_TYPE_ALBUM
             is DataItem.TrackerItem -> VIEW_TYPE_TRACK
-            is DataItem.Header -> VIEW_TYPE_VOLUME
+            is DataItem.DiskItem -> VIEW_TYPE_DISK
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
 
-            VIEW_TYPE_HEADER -> {
+            VIEW_TYPE_ALBUM -> {
                 AlbumHeaderViewHolder(
                     AlbumListHeaderViewBinding.inflate(
                         LayoutInflater.from(parent.context),
@@ -94,7 +54,7 @@ class AlbumTracksAdapter :
                 )
             }
 
-            VIEW_TYPE_VOLUME -> {
+            VIEW_TYPE_DISK -> {
                 VolumeHeaderViewHolder(
                     VolumeListItemViewBinding.inflate(
                         LayoutInflater.from(parent.context),
@@ -112,18 +72,17 @@ class AlbumTracksAdapter :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is AlbumHeaderViewHolder -> {
-                album?.let {
-                    holder.bind(it)
-                }
+                val item = getItem(position) as DataItem.AlbumItem
+                holder.bind(item.album)
             }
 
             is TrackItemViewHolder -> {
-                val item = getItem(position - 1) as DataItem.TrackerItem
+                val item = getItem(position) as DataItem.TrackerItem
                 holder.bind(item.track)
             }
 
             is VolumeHeaderViewHolder -> {
-                val item = getItem(position - 1) as DataItem.Header
+                val item = getItem(position) as DataItem.DiskItem
                 holder.bind(item.text)
             }
         }
@@ -166,8 +125,12 @@ sealed class DataItem {
         override val id = track.id
     }
 
-    data class Header(val text: String) : DataItem() {
+    data class DiskItem(val text: String) : DataItem() {
         override val id = text
+    }
+
+    data class AlbumItem(val album: Album) : DataItem() {
+        override val id = "Album"
     }
 
     abstract val id: String

@@ -37,8 +37,7 @@ class ArtistAlbumsViewModel @Inject constructor(
                 emit(albums)
 
             } catch (error: DataError) {
-                _snackBarLiveData.value = error.message
-                _snackBarLiveData.postValue("")
+                _snackBarLiveData.postValue(error.message)
             } finally {
                 _spinnerLiveData.postValue(false)
             }

@@ -4,6 +4,9 @@ import com.interview.musicsearch.api.ContentAPI
 import com.interview.musicsearch.data.model.Album
 import com.interview.musicsearch.data.model.Artist
 import com.interview.musicsearch.data.model.Track
+import kotlinx.coroutines.withTimeout
+
+private const val TIME_OUT = 5_000L
 
 class DefaultContentRepository(
     private val contentService: ContentAPI,
@@ -14,23 +17,53 @@ class DefaultContentRepository(
         return if (queryText.isEmpty()) {
             listOf()
         } else {
-            contentService.searchArtists(queryText).data
+            try {
+                withTimeout(TIME_OUT) {
+                    contentService.searchArtists(queryText).data
+                }
+            } catch (cause: Throwable) {
+                throw DataError("Unable to finish search", cause)
+            }
         }
     }
 
     override suspend fun fetchArtistAlbums(id: String): List<Album> {
-        return contentService.fetchArtistAlbums(id).data
+        return try {
+            withTimeout(TIME_OUT) {
+                contentService.fetchArtistAlbums(id).data
+            }
+        } catch (cause: Throwable) {
+            throw DataError("Unable to fetch artist $id's albums", cause)
+        }
     }
 
     override suspend fun fetchArtist(id: String): Artist {
-        return contentService.fetchArtist(id)
+        return try {
+            withTimeout(TIME_OUT) {
+                contentService.fetchArtist(id)
+            }
+        } catch (cause: Throwable) {
+            throw DataError("Unable to fetch artist $id", cause)
+        }
     }
 
     override suspend fun fetchAlbum(id: String): Album {
-        return contentService.fetchAlbum(id)
+        return try {
+            withTimeout(TIME_OUT) {
+                contentService.fetchAlbum(id)
+            }
+        } catch (cause: Throwable) {
+            throw DataError("Unable to fetch album $id", cause)
+        }
     }
 
     override suspend fun fetchAlbumTracks(id: String): List<Track> {
-        return contentService.fetchAlbumTracks(id).data
+        return try {
+            withTimeout(TIME_OUT) {
+                contentService.fetchAlbumTracks(id).data
+            }
+        } catch (cause: Throwable) {
+            throw DataError("Unable to fetch album $id's tracks", cause)
+        }
     }
 }

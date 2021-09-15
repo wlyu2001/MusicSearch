@@ -34,18 +34,18 @@ class SearchArtistsFragment : Fragment() {
         val adapter = SearchArtistAdapter()
 
         binding.searchArtistRecyclerView.adapter = adapter
-        viewModel.searchResultArtists.observe(viewLifecycleOwner) {
+        viewModel.searchArtistsLiveData.observe(viewLifecycleOwner) {
             adapter.submitList(it) {
                 binding.searchArtistRecyclerView.scrollToPosition(0)
             }
         }
 
-        viewModel.spinner.observe(viewLifecycleOwner) { value ->
+        viewModel.spinnerLiveData.observe(viewLifecycleOwner) { value ->
             value.let { show ->
                 binding.spinner.visibility = if (show) View.VISIBLE else View.GONE
             }
         }
-        viewModel.snackbar.observe(viewLifecycleOwner) { text ->
+        viewModel.snackbarLiveData.observe(viewLifecycleOwner) { text ->
             text?.let {
                 Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
                 viewModel.resetSnackbar()
@@ -64,7 +64,7 @@ class SearchArtistsFragment : Fragment() {
                 queryTextChangedJob = lifecycleScope.launch(Dispatchers.Main) {
                     delay(500)
                     newText?.let {
-                        viewModel.setSearchText(it)
+                        viewModel.setQueryText(it)
                     }
                 }
                 return false

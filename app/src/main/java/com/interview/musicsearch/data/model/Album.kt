@@ -1,6 +1,7 @@
 package com.interview.musicsearch.data.model
 
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "album")
@@ -10,4 +11,7 @@ data class Album(
     val cover_small: String,
     val cover_medium: String,
     val cover_big: String
-)
+) {
+    @Ignore
+    var artist: SimpleArtist? = null
+}

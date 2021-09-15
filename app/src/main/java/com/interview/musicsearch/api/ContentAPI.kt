@@ -11,11 +11,17 @@ import retrofit2.http.Query
 
 interface ContentAPI {
 
+    @GET("https://api.deezer.com/artist/{id}")
+    suspend fun fetchArtist(@Path("id") id: String): Artist
+
     @GET("https://api.deezer.com/artist/{id}/albums")
-    suspend fun fetchAlbumsOfArtist(@Path("id") id: String): Data<Album>
+    suspend fun fetchArtistAlbums(@Path("id") id: String): Data<Album>
+
+    @GET("https://api.deezer.com/album/{id}")
+    suspend fun fetchAlbum(@Path("id") id: String): Album
 
     @GET("https://api.deezer.com/album/{id}/tracks")
-    suspend fun fetchTracksOfAlbum(@Path("id") id: String): Data<Track>
+    suspend fun fetchAlbumTracks(@Path("id") id: String): Data<Track>
 
     @GET("https://api.deezer.com/search/artist")
     suspend fun searchArtists(@Query("q") text: String): Data<Artist>

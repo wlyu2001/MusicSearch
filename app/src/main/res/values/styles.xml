@@ -3,8 +3,4 @@
     <style name="circularImageView">
         <item name="cornerSize">50%</item>
     </style>
-
-    <style name="AppTheme" parent="@style/Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@android:color/black</item>
-    </style>
 </resources>

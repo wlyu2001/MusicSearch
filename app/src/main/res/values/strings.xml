@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MusicSearch</string>
     <string name="artists">Artists</string>
+    <string name="albums">Albums</string>
 </resources>

@@ -3,8 +3,8 @@ package com.interview.musicsearch.ui
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.interview.musicsearch.R
 import com.interview.musicsearch.databinding.ActivityMainBinding
@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         onNewIntent(intent)
 
+        setSupportActionBar(binding.toolbar)
     }
 
 
@@ -95,5 +96,10 @@ class MainActivity : AppCompatActivity() {
             fragmentManager.popBackStack()
 
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }

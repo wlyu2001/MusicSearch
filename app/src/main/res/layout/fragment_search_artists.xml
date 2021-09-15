@@ -4,27 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/search_box"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:iconifiedByDefault="false"/>
-
     <TextView
         android:id="@+id/artist_header"
         android:layout_width="match_parent"
         android:layout_height="@dimen/artist_header_height"
         android:layout_margin="@dimen/nice_margin"
-        android:textSize="@dimen/artist_list_header_text_size"
         android:text="@string/artists"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="@dimen/artist_list_header_text_size"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_box"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_artist_recycler_view"

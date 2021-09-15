@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
+import com.interview.musicsearch.R
 import com.interview.musicsearch.databinding.FragmentAlbumTracksBinding
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,10 +19,16 @@ private const val ID_KEY = ""
 @AndroidEntryPoint
 class AlbumTracksFragment : Fragment() {
 
-
     private val viewModel: AlbumTracksViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        (activity as? AppCompatActivity)?.supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            setDisplayShowTitleEnabled(false)
+        }
+
         arguments?.let {
             it.getString(ID_KEY)?.let { id ->
                 viewModel.getAlbumTracks(id)

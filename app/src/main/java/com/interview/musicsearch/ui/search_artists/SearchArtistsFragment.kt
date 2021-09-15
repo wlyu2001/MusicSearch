@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.interview.musicsearch.databinding.FragmentSearchArtistsBinding
+import com.interview.musicsearch.databinding.SearchLayoutBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -29,6 +31,7 @@ class SearchArtistsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+        val searchBox = SearchLayoutBinding.inflate(inflater, container, false).searchBox
         val binding = FragmentSearchArtistsBinding.inflate(inflater, container, false)
 
         val adapter = SearchArtistAdapter()
@@ -52,7 +55,14 @@ class SearchArtistsFragment : Fragment() {
             }
         }
 
-        binding.searchBox.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        (activity as? AppCompatActivity)?.supportActionBar?.apply {
+            customView = searchBox
+            setDisplayShowCustomEnabled(true)
+            setDisplayShowTitleEnabled(true)
+            setDisplayShowTitleEnabled(false)
+        }
+
+        searchBox.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }

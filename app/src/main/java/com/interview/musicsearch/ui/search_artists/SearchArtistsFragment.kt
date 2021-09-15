@@ -76,7 +76,7 @@ class SearchArtistsFragment : Fragment() {
                 queryTextChangedJob = lifecycleScope.launch(Dispatchers.Main) {
                     delay(500)
                     newText?.let {
-                        viewModel.setQueryText(it)
+                        viewModel.searchArtists(it)
                     }
                 }
                 return false

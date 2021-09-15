@@ -8,9 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
-import com.interview.musicsearch.R
 import com.interview.musicsearch.databinding.FragmentAlbumTracksBinding
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
 

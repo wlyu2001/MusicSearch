@@ -120,22 +120,6 @@ class AlbumTracksAdapter :
     }
 }
 
-sealed class DataItem {
-    data class TrackerItem(val track: Track) : DataItem() {
-        override val id = track.id
-    }
-
-    data class DiskItem(val text: String) : DataItem() {
-        override val id = text
-    }
-
-    data class AlbumItem(val album: Album) : DataItem() {
-        override val id = "Album"
-    }
-
-    abstract val id: String
-}
-
 private class DiffCallback : DiffUtil.ItemCallback<DataItem>() {
     override fun areItemsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
         return oldItem.id == newItem.id

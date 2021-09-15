@@ -6,13 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.interview.musicsearch.data.model.Album
-import com.interview.musicsearch.data.model.Artist
 import com.interview.musicsearch.databinding.AlbumCardViewBinding
-import com.interview.musicsearch.databinding.ArtistListItemViewBinding
 import com.interview.musicsearch.ui.getContentIntent
-import com.interview.musicsearch.ui.search_artists.SearchArtistAdapter
 import com.interview.musicsearch.util.ALBUM_TRACKS
-import com.interview.musicsearch.util.ARTIST_ALBUMS
 import com.squareup.picasso.Picasso
 
 class ArtistAlbumsAdapter :
@@ -27,7 +23,7 @@ class ArtistAlbumsAdapter :
             )
         )
     }
-    
+
     override fun onBindViewHolder(holder: ArtistAlbumsAdapter.AlbumItemViewHolder, position: Int) {
         holder.bind(getItem(position))
     }

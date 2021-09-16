@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.interview.musicsearch.databinding.FragmentSearchArtistsBinding
 import com.interview.musicsearch.databinding.SearchLayoutBinding
+import com.interview.musicsearch.util.EspressoIdlingResource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -43,6 +44,8 @@ class SearchArtistsFragment : Fragment() {
             adapter.submitList(it) {
                 binding.searchArtistRecyclerView.scrollToPosition(0)
             }
+
+            EspressoIdlingResource.decrement()
         }
 
         viewModel.spinnerLiveData.observe(viewLifecycleOwner) { value ->
@@ -71,9 +74,15 @@ class SearchArtistsFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
 
-                queryTextChangedJob?.cancel()
+                EspressoIdlingResource.increment()
+                queryTextChangedJob?.let {
+                    it.cancel()
+
+                    EspressoIdlingResource.decrement()
+                }
 
                 queryTextChangedJob = lifecycleScope.launch(Dispatchers.Main) {
+
                     delay(500)
                     newText?.let {
                         viewModel.searchArtists(it)

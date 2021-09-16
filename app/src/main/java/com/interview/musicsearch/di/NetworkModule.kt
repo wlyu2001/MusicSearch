@@ -1,4 +1,4 @@
-package com.shishiapp.interview.di
+package com.interview.musicsearch.di
 
 import com.interview.musicsearch.api.ContentAPI
 import dagger.Module

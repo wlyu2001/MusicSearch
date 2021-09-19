@@ -22,12 +22,6 @@ class AlbumTracksFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        (activity as? AppCompatActivity)?.supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
-            setDisplayShowTitleEnabled(false)
-        }
-
         arguments?.let {
             it.getString(ID_KEY)?.let { id ->
                 EspressoIdlingResource.increment()
@@ -49,6 +43,12 @@ class AlbumTracksFragment : Fragment() {
 
         binding.tracksRecyclerView.adapter = adapter
         binding.tracksRecyclerView.itemAnimator = null
+
+        (activity as? AppCompatActivity)?.supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            setDisplayShowTitleEnabled(false)
+        }
 
         viewModel.albumTracksLiveData.observe(viewLifecycleOwner) {
             adapter.submitList(it) {

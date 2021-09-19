@@ -23,12 +23,6 @@ class ArtistAlbumsFragment : Fragment() {
     private val viewModel: ArtistAlbumsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (activity as? AppCompatActivity)?.supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
-            setDisplayShowTitleEnabled(true)
-            setTitle(R.string.albums)
-        }
 
         arguments?.let {
             it.getString(ID_KEY)?.let { id ->
@@ -53,6 +47,13 @@ class ArtistAlbumsFragment : Fragment() {
         binding.albumsRecyclerView.adapter = adapter
         binding.albumsRecyclerView.itemAnimator = null
         binding.albumsRecyclerView.layoutManager = GridLayoutManager(context, 2)
+
+        (activity as? AppCompatActivity)?.supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            setDisplayShowTitleEnabled(true)
+            setTitle(R.string.albums)
+        }
 
         viewModel.artistAlbumsLiveData.observe(viewLifecycleOwner) {
             adapter.submitList(it) {

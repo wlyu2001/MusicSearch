@@ -24,11 +24,13 @@ class ArtistAlbumsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        arguments?.let {
-            it.getString(ID_KEY)?.let { id ->
+        if (savedInstanceState == null) {
+            arguments?.let {
+                it.getString(ID_KEY)?.let { id ->
 
-                EspressoIdlingResource.increment()
-                viewModel.getArtistAlbums(id)
+                    EspressoIdlingResource.increment()
+                    viewModel.getArtistAlbums(id)
+                }
             }
         }
         super.onCreate(savedInstanceState)

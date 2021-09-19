@@ -22,10 +22,12 @@ class AlbumTracksFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        arguments?.let {
-            it.getString(ID_KEY)?.let { id ->
-                EspressoIdlingResource.increment()
-                viewModel.getAlbumTracks(id)
+        if (savedInstanceState == null) {
+            arguments?.let {
+                it.getString(ID_KEY)?.let { id ->
+                    EspressoIdlingResource.increment()
+                    viewModel.getAlbumTracks(id)
+                }
             }
         }
         super.onCreate(savedInstanceState)

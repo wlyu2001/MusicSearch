@@ -35,7 +35,7 @@ class SearchArtistsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val searchBox = SearchLayoutBinding.inflate(inflater, container, false).searchBox
+        val searchBox = SearchLayoutBinding.inflate(inflater, null, false).searchBox
         val binding = FragmentSearchArtistsBinding.inflate(inflater, container, false)
 
         val adapter = SearchArtistAdapter()

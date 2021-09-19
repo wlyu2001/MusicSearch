@@ -15,7 +15,7 @@ import com.interview.musicsearch.util.EspressoIdlingResource
 import dagger.hilt.android.AndroidEntryPoint
 
 
-private const val ID_KEY = ""
+private const val ID_KEY = "id"
 
 @AndroidEntryPoint
 class ArtistAlbumsFragment : Fragment() {

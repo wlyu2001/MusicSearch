@@ -25,19 +25,23 @@
         android:ellipsize="end"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/number_text_view"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="?attr/colorOnPrimary"/>
 
     <TextView
         android:id="@+id/artist_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/nice_margin"
+        android:layout_marginBottom="@dimen/nice_margin"
+        android:layout_marginStart="@dimen/nice_margin"
+        android:layout_marginEnd="@dimen/nice_margin"
         android:textSize="@dimen/track_list_item_artist_text_size"
         android:lines="1"
         android:ellipsize="end"
         app:layout_constraintTop_toBottomOf="@id/title_text_view"
         app:layout_constraintStart_toEndOf="@id/number_text_view"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

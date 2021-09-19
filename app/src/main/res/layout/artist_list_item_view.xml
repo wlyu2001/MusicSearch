@@ -24,7 +24,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/artist_image"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="?attr/colorOnPrimary"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

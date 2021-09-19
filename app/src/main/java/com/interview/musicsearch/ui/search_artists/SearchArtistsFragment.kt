@@ -1,11 +1,14 @@
 package com.interview.musicsearch.ui.search_artists
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.setMargins
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -61,7 +64,14 @@ class SearchArtistsFragment : Fragment() {
         }
 
         (activity as? AppCompatActivity)?.supportActionBar?.apply {
-            customView = searchBox
+            val params = ActionBar.LayoutParams( //Center the textview in the ActionBar !
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER
+            ).apply {
+                setMargins(10)
+            }
+            setCustomView(searchBox, params)
             setDisplayShowCustomEnabled(true)
             setDisplayShowTitleEnabled(true)
             setDisplayShowTitleEnabled(false)

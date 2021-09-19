@@ -21,6 +21,8 @@ class SearchArtistsViewModel @Inject constructor(
     private val _snackBarLiveData = MutableLiveData<String?>()
     private val _searchArtistsLiveData = MutableLiveData<List<Artist>>()
 
+    private var currentQuery: String? = null
+
     val searchArtistsLiveData: LiveData<List<Artist>>
         get() = _searchArtistsLiveData
 
@@ -31,14 +33,17 @@ class SearchArtistsViewModel @Inject constructor(
         get() = _spinnerLiveData
 
     fun searchArtists(queryText: String) {
-        viewModelScope.launch {
-            try {
-                _spinnerLiveData.value = true
-                _searchArtistsLiveData.value = repository.searchArtists(queryText)
-            } catch (error: DataError) {
-                _snackBarLiveData.value = error.message
-            } finally {
-                _spinnerLiveData.value = false
+        if(currentQuery != queryText) {
+            currentQuery = queryText
+            viewModelScope.launch {
+                try {
+                    _spinnerLiveData.value = true
+                    _searchArtistsLiveData.value = repository.searchArtists(queryText)
+                } catch (error: DataError) {
+                    _snackBarLiveData.value = error.message
+                } finally {
+                    _spinnerLiveData.value = false
+                }
             }
         }
     }

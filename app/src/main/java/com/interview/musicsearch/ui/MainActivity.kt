@@ -35,7 +35,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        onNewIntent(intent)
+        if (savedInstanceState == null) {
+            onNewIntent(intent)
+        }
 
         setSupportActionBar(binding.toolbar)
     }
@@ -44,7 +46,6 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
-
 
         var fragment: Fragment? = null
 

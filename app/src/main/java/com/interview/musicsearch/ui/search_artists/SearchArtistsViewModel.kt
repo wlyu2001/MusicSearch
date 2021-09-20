@@ -1,9 +1,6 @@
 package com.interview.musicsearch.ui.search_artists
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.interview.musicsearch.data.ContentRepository
 import com.interview.musicsearch.data.DataError
 import com.interview.musicsearch.data.model.Artist
@@ -19,25 +16,16 @@ class SearchArtistsViewModel @Inject constructor(
 
     private val _spinnerLiveData = MutableLiveData(false)
     private val _snackBarLiveData = MutableLiveData<String?>()
+
+    private val _searchQueryLiveData = MutableLiveData<String>()
     private val _searchArtistsLiveData = MutableLiveData<List<Artist>>()
 
-    private var currentQuery: String? = null
-
-    val searchArtistsLiveData: LiveData<List<Artist>>
-        get() = _searchArtistsLiveData
-
-    val snackbarLiveData: LiveData<String?>
-        get() = _snackBarLiveData
-
-    val spinnerLiveData: LiveData<Boolean>
-        get() = _spinnerLiveData
-
     fun searchArtists(queryText: String) {
-        if(currentQuery != queryText) {
-            currentQuery = queryText
+        if (_searchQueryLiveData.value != queryText) {
+            _spinnerLiveData.value = queryText.isNotEmpty()
+            _searchQueryLiveData.value = queryText
             viewModelScope.launch {
                 try {
-                    _spinnerLiveData.value = true
                     _searchArtistsLiveData.value = repository.searchArtists(queryText)
                 } catch (error: DataError) {
                     _snackBarLiveData.value = error.message
@@ -47,6 +35,18 @@ class SearchArtistsViewModel @Inject constructor(
             }
         }
     }
+
+    val searchQueryLiveData: LiveData<String>
+        get() = _searchQueryLiveData
+
+    val searchArtistsLiveData: LiveData<List<Artist>>
+        get() = _searchArtistsLiveData
+
+    val snackbarLiveData: LiveData<String?>
+        get() = _snackBarLiveData
+
+    val spinnerLiveData: LiveData<Boolean>
+        get() = _spinnerLiveData
 
     fun resetSnackbar() {
         _snackBarLiveData.value = null

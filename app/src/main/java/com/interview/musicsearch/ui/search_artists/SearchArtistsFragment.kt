@@ -63,6 +63,10 @@ class SearchArtistsFragment : Fragment() {
             }
         }
 
+        viewModel.searchQueryLiveData.observe(viewLifecycleOwner) { query ->
+            searchBox.setQuery(query, false)
+        }
+
         (activity as? AppCompatActivity)?.supportActionBar?.apply {
             val params = ActionBar.LayoutParams( //Center the textview in the ActionBar !
                 ActionBar.LayoutParams.WRAP_CONTENT,

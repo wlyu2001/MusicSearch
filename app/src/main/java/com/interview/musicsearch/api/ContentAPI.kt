@@ -1,6 +1,5 @@
 package com.interview.musicsearch.api
 
-import androidx.lifecycle.LiveData
 import com.interview.musicsearch.data.model.Album
 import com.interview.musicsearch.data.model.Artist
 import com.interview.musicsearch.data.model.Data

@@ -88,14 +88,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val backStackEntryCount = supportFragmentManager.backStackEntryCount
-        if (backStackEntryCount <= 1) {
+        if (supportFragmentManager.backStackEntryCount <= 1) {
             finish()
         } else {
-
-            val fragmentManager = supportFragmentManager
-            fragmentManager.popBackStack()
-
+            supportFragmentManager.popBackStack()
         }
     }
 

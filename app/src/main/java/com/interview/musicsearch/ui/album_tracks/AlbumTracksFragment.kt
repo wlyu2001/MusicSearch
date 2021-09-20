@@ -50,6 +50,7 @@ class AlbumTracksFragment : Fragment() {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
             setDisplayShowTitleEnabled(false)
+            setDisplayShowCustomEnabled(false)
         }
 
         viewModel.albumTracksLiveData.observe(viewLifecycleOwner) {

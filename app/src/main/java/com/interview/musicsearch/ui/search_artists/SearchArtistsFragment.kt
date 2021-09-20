@@ -71,9 +71,11 @@ class SearchArtistsFragment : Fragment() {
             ).apply {
                 setMargins(10)
             }
+
             setCustomView(searchBox, params)
             setDisplayShowCustomEnabled(true)
-            setDisplayShowTitleEnabled(true)
+            setDisplayShowHomeEnabled(false)
+            setDisplayHomeAsUpEnabled(false)
             setDisplayShowTitleEnabled(false)
         }
 

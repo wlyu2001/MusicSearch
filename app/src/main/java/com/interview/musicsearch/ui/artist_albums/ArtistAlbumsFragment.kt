@@ -53,6 +53,7 @@ class ArtistAlbumsFragment : Fragment() {
         (activity as? AppCompatActivity)?.supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
+            setDisplayShowCustomEnabled(false)
             setDisplayShowTitleEnabled(true)
             setTitle(R.string.albums)
         }

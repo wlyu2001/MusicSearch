@@ -47,8 +47,6 @@ class SearchArtistsFragment : Fragment() {
             adapter.submitList(it) {
                 binding.searchArtistRecyclerView.scrollToPosition(0)
             }
-
-            EspressoIdlingResource.decrement()
         }
 
         viewModel.spinnerLiveData.observe(viewLifecycleOwner) { value ->
@@ -90,19 +88,20 @@ class SearchArtistsFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
 
-                EspressoIdlingResource.increment()
                 queryTextChangedJob?.let {
                     it.cancel()
-
                     EspressoIdlingResource.decrement()
                 }
 
                 queryTextChangedJob = lifecycleScope.launch(Dispatchers.Main) {
 
+                    EspressoIdlingResource.increment()
                     delay(500)
+                    EspressoIdlingResource.decrement()
                     newText?.let {
                         viewModel.searchArtists(it)
                     }
+                    queryTextChangedJob = null
                 }
                 return false
             }

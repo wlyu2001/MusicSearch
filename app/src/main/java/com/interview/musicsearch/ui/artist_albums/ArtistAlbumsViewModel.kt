@@ -8,6 +8,7 @@ import com.interview.musicsearch.data.ContentRepository
 import com.interview.musicsearch.data.DataError
 import com.interview.musicsearch.data.model.Album
 import com.interview.musicsearch.data.model.SimpleArtist
+import com.interview.musicsearch.util.EspressoIdlingResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,6 +36,7 @@ class ArtistAlbumsViewModel @Inject constructor(
     fun getArtistAlbums(id: String) {
         viewModelScope.launch {
             try {
+                EspressoIdlingResource.increment()
                 _spinnerLiveData.value = true
                 val artist = SimpleArtist(repository.fetchArtist(id).name)
                 val albums = repository.fetchArtistAlbums(id)
@@ -44,6 +46,7 @@ class ArtistAlbumsViewModel @Inject constructor(
                 _snackBarLiveData.value = error.message
             } finally {
                 _spinnerLiveData.value = false
+                EspressoIdlingResource.decrement()
             }
         }
     }

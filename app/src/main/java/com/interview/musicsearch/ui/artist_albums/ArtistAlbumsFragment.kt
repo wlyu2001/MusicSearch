@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.interview.musicsearch.R
 import com.interview.musicsearch.databinding.FragmentArtistAlbumsBinding
-import com.interview.musicsearch.util.EspressoIdlingResource
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -27,8 +26,6 @@ class ArtistAlbumsFragment : Fragment() {
         if (savedInstanceState == null) {
             arguments?.let {
                 it.getString(ID_KEY)?.let { id ->
-
-                    EspressoIdlingResource.increment()
                     viewModel.getArtistAlbums(id)
                 }
             }
@@ -62,8 +59,6 @@ class ArtistAlbumsFragment : Fragment() {
             adapter.submitList(it) {
                 binding.albumsRecyclerView.scrollToPosition(0)
             }
-
-            EspressoIdlingResource.decrement()
         }
 
         viewModel.spinnerLiveData.observe(viewLifecycleOwner) { value ->

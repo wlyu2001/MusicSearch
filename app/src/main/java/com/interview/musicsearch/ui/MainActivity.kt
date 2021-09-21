@@ -45,10 +45,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        setIntent(intent)
 
         var fragment: Fragment? = null
-
 
         if (intent.action == ACTION_VIEW) {
 

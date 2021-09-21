@@ -1,6 +1,7 @@
 package com.interview.musicsearch.ui
 
 import android.widget.AutoCompleteTextView
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.click
@@ -10,14 +11,12 @@ import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.filters.LargeTest
-import androidx.test.filters.MediumTest
 import com.interview.musicsearch.R
 import com.interview.musicsearch.ui.artist_albums.ArtistAlbumsAdapter
 import com.interview.musicsearch.ui.search_artists.SearchArtistAdapter
 import com.interview.musicsearch.util.EspressoIdlingResource
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import io.mockk.MockKAnnotations
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -40,9 +39,6 @@ class MainActivityTest {
     fun setUp() {
         hiltRule.inject()
         IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
-
-        MockKAnnotations.init(this, relaxed = true)
-
     }
 
     @After
@@ -54,7 +50,9 @@ class MainActivityTest {
     @Test
     fun testCompleteFlow() {
 
-        onView(isAssignableFrom(AutoCompleteTextView::class.java)).perform(replaceText("metallica"))
+        val queryText = "metallica"
+
+        onView(isAssignableFrom(AutoCompleteTextView::class.java)).perform(replaceText(queryText))
 
         onView(withId(R.id.search_artist_recycler_view)).perform(
             actionOnItemAtPosition<SearchArtistAdapter.ArtistItemViewHolder>(
@@ -72,6 +70,13 @@ class MainActivityTest {
         )
 
         onView(withId(R.id.tracks_recycler_view)).check(matches(isDisplayed()))
+
+        Espresso.pressBack()
+        Espresso.pressBack()
+
+        onView(isAssignableFrom(AutoCompleteTextView::class.java)).check(matches(withText(queryText)))
+
+
     }
 
 }

@@ -64,4 +64,15 @@ class SearchArtistsViewModelTest {
 
     }
 
+    @Test
+    fun `query text is correctly stored in view model`() = runBlockingTest {
+
+        val queryText = "search query"
+        viewModel.searchArtists(queryText)
+
+        val queryTextValue = viewModel.searchQueryLiveData.value
+        Truth.assertThat(queryTextValue).isEqualTo(queryText)
+
+    }
+
 }

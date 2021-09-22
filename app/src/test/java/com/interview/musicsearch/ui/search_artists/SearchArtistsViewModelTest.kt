@@ -5,7 +5,6 @@ import com.google.common.truth.Truth
 import com.interview.musicsearch.MainCoroutineRule
 import com.interview.musicsearch.api.FakeRepository
 import com.interview.musicsearch.getOrAwaitValueTest
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -30,7 +29,7 @@ class SearchArtistsViewModelTest {
 
 
     @Test
-    fun `show spinner during search`() = runBlockingTest {
+    fun `show spinner during search`() {
         var spinnerValue = viewModel.spinnerLiveData.getOrAwaitValueTest()
         Truth.assertThat(spinnerValue).isFalse()
 
@@ -47,7 +46,7 @@ class SearchArtistsViewModelTest {
     }
 
     @Test
-    fun `show error when there is data error and hide spinner`() = runBlockingTest {
+    fun `show error when there is data error and hide spinner`() {
 
         viewModel.searchArtists("search query")
 
@@ -65,7 +64,7 @@ class SearchArtistsViewModelTest {
     }
 
     @Test
-    fun `query text is correctly stored in view model`() = runBlockingTest {
+    fun `query text is correctly stored in view model`() {
 
         val queryText = "search query"
         viewModel.searchArtists(queryText)

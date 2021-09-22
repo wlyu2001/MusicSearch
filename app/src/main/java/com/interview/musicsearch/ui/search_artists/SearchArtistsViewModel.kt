@@ -4,7 +4,6 @@ import androidx.lifecycle.*
 import com.interview.musicsearch.data.ContentRepository
 import com.interview.musicsearch.data.DataError
 import com.interview.musicsearch.data.model.Artist
-import com.interview.musicsearch.util.EspressoIdlingResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,13 +26,11 @@ class SearchArtistsViewModel @Inject constructor(
             _searchQueryLiveData.value = queryText
             viewModelScope.launch {
                 try {
-                    EspressoIdlingResource.increment()
                     _searchArtistsLiveData.value = repository.searchArtists(queryText)
                 } catch (error: DataError) {
                     _snackBarLiveData.value = error.message
                 } finally {
                     _spinnerLiveData.value = false
-                    EspressoIdlingResource.decrement()
                 }
             }
         }

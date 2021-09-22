@@ -45,6 +45,7 @@ class SearchArtistsFragment : Fragment() {
 
         viewModel.searchArtistsLiveData.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+            EspressoIdlingResource.decrement()
         }
 
         viewModel.spinnerLiveData.observe(viewLifecycleOwner) { value ->
@@ -97,6 +98,7 @@ class SearchArtistsFragment : Fragment() {
                     delay(500)
                     EspressoIdlingResource.decrement()
                     newText?.let {
+                        EspressoIdlingResource.increment()
                         viewModel.searchArtists(it)
                     }
                     queryTextChangedJob = null

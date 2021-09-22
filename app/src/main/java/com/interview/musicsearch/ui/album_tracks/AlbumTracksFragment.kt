@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import com.interview.musicsearch.databinding.FragmentAlbumTracksBinding
+import com.interview.musicsearch.util.EspressoIdlingResource
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -24,6 +25,7 @@ class AlbumTracksFragment : Fragment() {
         if (savedInstanceState == null) {
             arguments?.let {
                 it.getString(ID_KEY)?.let { id ->
+                    EspressoIdlingResource.increment()
                     viewModel.getAlbumTracks(id)
                 }
             }
@@ -53,6 +55,7 @@ class AlbumTracksFragment : Fragment() {
 
         viewModel.albumTracksLiveData.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+            EspressoIdlingResource.decrement()
         }
 
         viewModel.spinnerLiveData.observe(viewLifecycleOwner) { value ->

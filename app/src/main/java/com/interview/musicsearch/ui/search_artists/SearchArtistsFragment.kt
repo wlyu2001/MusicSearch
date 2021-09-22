@@ -93,13 +93,15 @@ class SearchArtistsFragment : Fragment() {
                 }
 
                 queryTextChangedJob = lifecycleScope.launch(Dispatchers.Main) {
-
                     EspressoIdlingResource.increment()
                     delay(500)
                     EspressoIdlingResource.decrement()
                     newText?.let {
-                        EspressoIdlingResource.increment()
-                        viewModel.searchArtists(it)
+                        // Prevent IdlingResource from increment when coming back
+                        if (viewModel.searchQueryLiveData.value != it) {
+                            EspressoIdlingResource.increment()
+                            viewModel.searchArtists(it)
+                        }
                     }
                     queryTextChangedJob = null
                 }

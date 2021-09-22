@@ -21,7 +21,6 @@ class SearchArtistsViewModel @Inject constructor(
     private val _searchArtistsLiveData = MutableLiveData<List<Artist>>()
 
     fun searchArtists(queryText: String) {
-        if (_searchQueryLiveData.value != queryText) {
             _spinnerLiveData.value = queryText.isNotEmpty()
             _searchQueryLiveData.value = queryText
             viewModelScope.launch {
@@ -33,7 +32,7 @@ class SearchArtistsViewModel @Inject constructor(
                     _spinnerLiveData.value = false
                 }
             }
-        }
+
     }
 
     val searchQueryLiveData: LiveData<String>

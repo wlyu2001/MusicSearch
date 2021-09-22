@@ -56,9 +56,7 @@ class ArtistAlbumsFragment : Fragment() {
         }
 
         viewModel.artistAlbumsLiveData.observe(viewLifecycleOwner) {
-            adapter.submitList(it) {
-                binding.albumsRecyclerView.scrollToPosition(0)
-            }
+            adapter.submitList(it)
         }
 
         viewModel.spinnerLiveData.observe(viewLifecycleOwner) { value ->

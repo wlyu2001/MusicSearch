@@ -44,9 +44,7 @@ class SearchArtistsFragment : Fragment() {
         binding.searchArtistRecyclerView.itemAnimator = null
 
         viewModel.searchArtistsLiveData.observe(viewLifecycleOwner) {
-            adapter.submitList(it) {
-                binding.searchArtistRecyclerView.scrollToPosition(0)
-            }
+            adapter.submitList(it)
         }
 
         viewModel.spinnerLiveData.observe(viewLifecycleOwner) { value ->

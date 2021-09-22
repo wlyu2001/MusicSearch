@@ -52,9 +52,7 @@ class AlbumTracksFragment : Fragment() {
         }
 
         viewModel.albumTracksLiveData.observe(viewLifecycleOwner) {
-            adapter.submitList(it) {
-                binding.tracksRecyclerView.scrollToPosition(0)
-            }
+            adapter.submitList(it)
         }
 
         viewModel.spinnerLiveData.observe(viewLifecycleOwner) { value ->

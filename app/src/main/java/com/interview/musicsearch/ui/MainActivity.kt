@@ -19,7 +19,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 fun Context.getContentIntent(type: Int, id: String = ""): Intent {
     return Intent(this, MainActivity::class.java).apply {
-        action = ACTION_VIEW
         data = UriUtil.getContentUri(type, id)
     }
 }
@@ -49,7 +48,10 @@ class MainActivity : AppCompatActivity() {
         var fragment: Fragment? = null
 
         if (intent.action == ACTION_VIEW) {
-
+            // TODO: incoming link
+            // First clear backstack, then add Search (Home), then open content
+        } else {
+            // Internal navigation
             intent.data?.let { uri ->
 
                 val type = UriUtil.getType(uri)
@@ -69,19 +71,19 @@ class MainActivity : AppCompatActivity() {
                         throw Exception("Invalid Uri: type")
 
                 }
+            } ?: run {
+                if(supportFragmentManager.backStackEntryCount == 0) {
+                    fragment = SearchArtistsFragment.newInstance()
+                }
             }
-        } else {
-            fragment = SearchArtistsFragment.newInstance()
         }
 
         fragment?.let {
-
-            val fragmentManager = supportFragmentManager
-            val fragmentTransaction = fragmentManager.beginTransaction()
-
-            fragmentTransaction.replace(R.id.fragment_container_view, it)
-            fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.commit()
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.fragment_container_view, it)
+                addToBackStack(null)
+                commit()
+            }
         }
     }
 
